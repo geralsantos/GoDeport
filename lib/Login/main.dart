@@ -2,24 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
-
+import 'dart:async'; 
 import 'dart:convert';
+
+import '../NavigationRoute/navigationRoute.dart';
+import '../utils/flutter/HexColor.dart';
+
 class LoginWidget extends StatefulWidget {
   _LoginWidgetState createState() => _LoginWidgetState();
 }
 
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
 
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
-}
 
 class _LoginWidgetState extends State<LoginWidget> {
   bool isLoggedIn=false;
@@ -40,11 +33,17 @@ void initiateFacebook() async{
     default:
   }
 }
+void ingresar(){
+
+}
 void getUserInfo(FacebookLoginResult result) async{
 final token = result.accessToken.token;
 final graphResponse = await http.get(
             'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
 final profile = json.decode(graphResponse.body);
+Navigator.push(context, 
+                    new MaterialPageRoute(builder: (context)=>new navigationRoute())
+                  );
 print(profile);
 }
 void onLoginStatusChange(bool isLoggedIn){
@@ -137,7 +136,7 @@ void onLoginStatusChange(bool isLoggedIn){
                           ),
                           new Container(
                               width: 200.0,
-                              padding: EdgeInsets.only(left: 70.0, right: 70.0,bottom: 40.0),
+                              padding: EdgeInsets.only(left: 50.0, right: 50.0,bottom: 40.0),
                               child: new Column(
                                 children: <Widget>[
                                   new RaisedButton(
@@ -205,7 +204,7 @@ void onLoginStatusChange(bool isLoggedIn){
                               )
                           ), 
                           new Container(
-                              padding: EdgeInsets.only(top: 120.0),
+                              padding: EdgeInsets.only(top: 50.0),
                               child: new Column(
                                 children: <Widget>[
                                   new RaisedButton(
@@ -237,7 +236,7 @@ void onLoginStatusChange(bool isLoggedIn){
                         ],
                       ),
                       width: double.infinity,
-                      height: 760.0,
+                      height: 680.0,
                       decoration: BoxDecoration(
                         color: HexColor('#ffffff'),
                         borderRadius: BorderRadius.circular(8.0),
